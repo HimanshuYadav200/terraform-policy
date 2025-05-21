@@ -1,0 +1,10 @@
+import "tfplan/v2" as tfplan
+
+# Ensure every azurerm_resource_group has a non‐null "environment" tag
+main = rule {
+  all tfplan.resources.azurerm_resource_group as _, rgs {
+    all rgs as _, rg {
+      rg.change.after.tags["environment"] is not null
+    }
+  }
+}
